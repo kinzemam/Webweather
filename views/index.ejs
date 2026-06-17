@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Iosevka+Charon:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Webweather</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo.svg">
+</head>
+
+<body>
+    <header class="mb-3 px-2">
+        <div class="lead">
+            Please use ISO 3166 country codes. Here is a list of some <a
+                href="https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes" target="_blank">ISO 3166</a> country
+            codes.
+        </div>
+    </header>
+    <main class="card container px-0 py-0 px-md-2 px-lg-4 py-md-1 py-lg-2 mx-0">
+        <div class="container-md-fluid px-2 pt-2 pt-lg-3 px-lg-4 my-form">
+            <form action="/" method="POST">
+                <div class="mb-3">
+                    <label for="z-code" class="form-label">Zipcode/Postcode: </label>
+                    <input type="number" class="form-control" name="zipcode" id="z-code" placeholder="123456">
+                </div>
+                <div class="mb-3">
+                    <label for="c-code" class="form-label">Country code:</label>
+                    <input class="form-control" name="countrycode" id="c-code" type="text" placeholder="IN">
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="btn btn-outline-dark" value="Search">
+                </div>
+
+            </form>
+            <hr>
+        </div>
+        <div class="container data-card gradient-text gradient-bg-secondary">
+            <% if(locals.content) {%>
+                <div id="temp1" class="gradient-bg-primary gradient-text stretch pe-1">
+                    <span>
+                        <%= content.temp %>
+                    </span>
+                </div>
+                <div id="temp2" class="text-left ps-1">
+                    <p class="h5">Feels like: <strong>
+                            <%= content.feels_like %>
+                        </strong></p>
+                    <p class="h5">Min/Max: <strong>
+                            <%= content.temp_min%>/<%= content.temp_max%>
+                        </strong></p>
+                    <p class="h5">Humidity: <strong>
+                            <%= content.humidity %>
+                        </strong></p>
+                    <p class="h5">Pressure: <strong>
+                            <%= content.pressure %>
+                        </strong></p>
+                    <p class="h5">AQI: <strong>
+                            <%= content.aqi %>
+                        </strong></p>
+                    <p class="h5">PM 2.5: <strong>
+                            <%= content.pm2_5 %>
+                        </strong></p>
+                    <p class="h5">PM 10: <strong>
+                            <%= content.pm10 %>
+                        </strong></p>
+                </div>
+                <div id="temp3" class="pt-md-2 pe-1">
+                    <div class="sunrise">
+                        <p class="lead"><img src="/images/sunrise-fill.svg" height="30" alt="">Sunrise: <strong><%=
+                                content.sunrise %></strong>
+                        </p>
+                    </div>
+                    <div class="sunset">
+                        <p class="lead"><img src="/images/sunset-fill.svg" height="30" alt="">Sunset: <strong><%= content.sunset
+                                %></strong>
+                        </p>
+                    </div>
+                </div>
+                <div id="temp4" class="ps-1">
+                    <div class="display-5 desc">
+                        <%= content.desc %><img src="https://openweathermap.org/payload/api/media/file/<%= icon%>.png"
+                                height="50px">
+                    </div>
+
+                    <div class="h4 my-0 location">
+                        <%= content.city %>, <%= content.country %>
+                    </div>
+                </div>
+
+
+                <% } %>
+                    <% if(locals.e){ %>
+                        <div class="display-5 error-box">
+                            <p class="display-3 text-center ">
+                                <%= e.code %>: <%=e.err_msg %>
+                            </p>
+                            <p class="lead">
+                                <%= e.msg %>
+                            </p>
+                        </div>
+                        <% } %>
+        </div>
+    </main>
+</body>
+
+</html>
