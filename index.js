@@ -18,6 +18,18 @@ const errMessage = {
     500: 'There is some internal server error. Try again later!'
 }
 
+function convertTime(timestamp, timezone) {
+    return new Date((timestamp + timezone) * 1000).toLocaleTimeString(
+        "en-IN", {
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit",
+            timeZone: "UTC"
+        }
+    )
+}
+
+
 app.get("/", (req, res) => {
     res.render('index.ejs')
 })
@@ -55,8 +67,8 @@ app.post('/', async (req, res) => {
             temp_max: `${result2.main.temp_max}°C`,
             humidity: result2.main.humidity,
             pressure: result2.main.pressure,
-            sunrise: new Date(result2.sys.sunrise * 1000).toLocaleTimeString(),
-            sunset: new Date(result2.sys.sunset * 1000).toLocaleTimeString(),
+            sunrise: convertTime(result2.sys.sunrise, result2.timezone),
+            sunset: convertTime(result2.sys.sunset, result2.timezone),
             main: result2.weather[0].main,
             desc: result2.weather[0].description,
             aqi: result3.main.aqi,
@@ -65,6 +77,7 @@ app.post('/', async (req, res) => {
            
         }
         console.log(result3.main.aqi)
+        console.log(weather_op)
         res.render('index.ejs', {content: weather_op, icon: result2.weather[0].icon })
     }
     catch (err) {
