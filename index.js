@@ -31,7 +31,10 @@ function convertTime(timestamp, timezone) {
 
 
 app.get("/", (req, res) => {
-    res.render('index.ejs')
+    res.render('index.ejs', {
+        intro: {
+        text:'Enter your zipcode and country code to find the weather details of your location.'
+    }})
 })
 
 app.post('/', async (req, res) => {
